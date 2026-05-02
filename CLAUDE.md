@@ -62,17 +62,37 @@ Long-lived branches:
 
 Pushes are always manual; do not push branches or tags without explicit instruction.
 
-## Repository state
+## Common commands
 
-As of this file's creation, the repo contains only `CLAUDE.md` and `environment.yml`. **No source code exists yet.** The next scaffolding pass is expected to introduce:
+All commands assume the matchstick env is active (`mamba activate matchstick`). To run a one-shot without activating, prefix with `mamba run -n matchstick`.
 
-- `pyproject.toml` — project metadata plus ruff and pytest config
-- `src/matchstick_man/` — main package; entry point launches the Pyxel `App`
-- A Pyxel resource file (`.pyxres`) for sprites, tilemaps, sfx, and music
-- `tests/` — pytest suite, with the player state machine as the first thing under test (it's pure logic and the highest-leverage thing to lock down)
+| Task | Command |
+| --- | --- |
+| Install package in editable mode | `pip install -e .` |
+| Run the game (module form) | `python -m matchstick_man` |
+| Run the game (console script) | `matchstick-man` |
+| Run all tests | `pytest` |
+| Run a single test | `pytest tests/test_smoke.py::test_version_is_nonempty_string` |
+| Lint | `ruff check .` |
+| Auto-format | `ruff format .` |
+| Build HTML docs | `cd docs && make html` (output: `docs/build/html/`) |
+| Rebuild docs from clean | `cd docs && make clean html` |
+| Update conda env from spec | `mamba env update -n matchstick -f environment.yml --prune` |
+| Web export *(no assets yet)* | `pyxel app2html src/matchstick_man` |
 
-When the scaffold lands, **replace this section** with:
-1. Concrete run / lint / test / web-build commands.
-2. A short architecture map (which module owns the state machine, where tile materials are defined, where level data lives).
+## Architecture map
 
-Until then, do not invent file paths or module names in suggestions.
+Everything below is the current state of the code. Update this map when modules move or new ones are added.
+
+- **`src/matchstick_man/__init__.py`** — package marker; declares `__version__`. Hatchling's `[tool.hatch.version]` reads it as the single source of truth for the project version.
+- **`src/matchstick_man/__main__.py`** — defines `main()`, which does `App().run()`. Wired as the `matchstick-man` console script via `[project.scripts]`.
+- **`src/matchstick_man/app.py`** — defines `class App`. `__init__` calls `pyxel.init(WIDTH, HEIGHT, title=TITLE)`; `run()` enters the blocking `pyxel.run(self.update, self.draw)` loop. The init/run split (vs. Pyxel's bundled examples, which call `pyxel.run` from inside `__init__`) is deliberate — it lets tests construct `App` without blocking. `WIDTH`, `HEIGHT`, and `TITLE` are inlined at the top of the module; promote to a `constants.py` only when there are >10 game constants.
+- **`tests/`** — pytest suite. Currently a single smoke test (`test_smoke.py`) verifying the package imports and exposes `__version__`. The player state machine — when it lands — should be the next thing under test, since it's pure logic and the highest-leverage thing to lock down.
+- **`docs/`** — Sphinx documentation. `docs/source/conf.py` configures the Read the Docs theme, the numpydoc extension (NumPy-style docstrings), and adds `src/` to `sys.path` for autodoc.
+
+**Not yet present** (deliberately deferred to subsequent feature branches):
+
+- A `.pyxres` resource file for sprites/tilemaps/sfx/music.
+- The player state machine (Headed / Burning / Headless), tile materials (`rough` / `smooth`), water tiles, matchbook pickups.
+- Level data and the level loader.
+- `LICENSE` file (license choice deferred).

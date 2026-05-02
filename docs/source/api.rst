@@ -1,13 +1,23 @@
 API reference
 =============
 
-.. note::
+.. automodule:: matchstick_man
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-   The :mod:`matchstick_man` package does not exist yet. Once source code
-   lands under ``src/matchstick_man/``, uncomment the ``automodule`` directive
-   below to auto-generate API documentation from NumPy-style docstrings.
+``matchstick_man.app``
+----------------------
 
-.. .. automodule:: matchstick_man
-..    :members:
-..    :undoc-members:
-..    :show-inheritance:
+.. automodule:: matchstick_man.app
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+``matchstick_man.__main__``
+---------------------------
+
+.. automodule:: matchstick_man.__main__
+   :members:
+   :undoc-members:
+   :show-inheritance:
