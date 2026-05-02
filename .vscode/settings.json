@@ -1,6 +1,6 @@
 {
     "python.defaultInterpreterPath": "${env:HOME}/miniforge3/envs/matchstick/bin/python",
-    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvironment": false,
 
     // Force VS Code's integrated terminals in this workspace to load the
     // matchstick conda env. Standalone `python.terminal.activateEnvironment`
@@ -49,5 +49,5 @@
         "docs/build": true
     },
     "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
 }
