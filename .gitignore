@@ -23,7 +23,10 @@ docs/build/
 docs/source/_build/
 
 # Editors
-.vscode/
+# Track shared VS Code project settings; ignore everything else under .vscode/.
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 
 # macOS
