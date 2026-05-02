@@ -25,9 +25,20 @@ for _ in 1 2 3 4 5; do
 done
 
 # 3. Activate the project conda env. Prefer mamba; fall back to conda.
+#
+#    `mamba activate` requires `mamba` to be registered as a shell function
+#    so it can modify the parent shell. The user's ~/.zshrc runs
+#    `conda init` but typically not `mamba shell init`, so without the
+#    inline hook eval below, `mamba activate` errors with
+#    "'mamba' is running as a subprocess and can't modify the parent shell".
+#
+#    `conda activate` works out of the box (registered by `conda init`),
+#    so it's the fallback if mamba isn't installed.
+#
 #    Silent on failure so a missing env doesn't prevent the terminal opening.
 if command -v mamba >/dev/null 2>&1; then
-    mamba activate matchstick 2>/dev/null || true
+    eval "$(mamba shell hook --shell zsh 2>/dev/null)" 2>/dev/null
+    mamba activate matchstick >/dev/null 2>&1 || true
 elif command -v conda >/dev/null 2>&1; then
-    conda activate matchstick 2>/dev/null || true
+    conda activate matchstick >/dev/null 2>&1 || true
 fi

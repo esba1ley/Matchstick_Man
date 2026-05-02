@@ -10,7 +10,10 @@
     "terminal.integrated.profiles.osx": {
         "zsh (matchstick)": {
             "path": "/bin/zsh",
-            "args": ["-i"],
+            // -l so /etc/zprofile runs path_helper, which adds /opt/X11/bin
+            // (XQuartz) and any other /etc/paths.d/* entries to PATH.
+            // -i so .zshrc runs (Oh My Zsh, aliases, conda init).
+            "args": ["-l", "-i"],
             "env": {
                 "ZDOTDIR": "${workspaceFolder}/.vscode/zdotdir"
             },
