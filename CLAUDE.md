@@ -43,6 +43,25 @@ mamba env update -n matchstick -f environment.yml --prune    # rebuild after spe
 
 Sanity check after activation: `python -c "import pyxel; print(pyxel.VERSION)"` should print `2.9.4`.
 
+## Branching strategy
+
+This repo uses **Git Flow** with abbreviated prefixes, hybridized with the global `esbailey/issue-<n>-<desc>` naming rule where it fits.
+
+| Type | Prefix | Branch name pattern | Cut from → merged to |
+| --- | --- | --- | --- |
+| Feature | `ft` | `ft/esbailey/issue-<n>-<short-kebab-desc>` | `develop` → `develop` |
+| Release | `rc` | `rc/v<MAJOR>.<MINOR>.<PATCH>` | `develop` → `main` *and* `develop` (tag on `main`) |
+| Hotfix  | `hf` | `hf/esbailey/issue-<n>-<short-kebab-desc>` | `main` → `main` *and* `develop` (tag on `main`) |
+
+When no GitHub issue exists for a feature/hotfix, use `ft/esbailey/<short-kebab-desc>` (or `hf/...`) and prompt the user to consider filing one — per the global convention.
+
+Long-lived branches:
+
+- `main` — production-ready; contains only the initial seed commit plus tagged release-merge commits. Never commit feature work directly here.
+- `develop` — integration branch; all feature merges land here. This is the working branch by default.
+
+Pushes are always manual; do not push branches or tags without explicit instruction.
+
 ## Repository state
 
 As of this file's creation, the repo contains only `CLAUDE.md` and `environment.yml`. **No source code exists yet.** The next scaffolding pass is expected to introduce:
