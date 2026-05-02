@@ -6,5 +6,8 @@ dependencies:
   - pip
   - ruff
   - pytest
+  - sphinx
+  - sphinx_rtd_theme
+  - numpydoc
   - pip:
       - pyxel==2.9.4
