@@ -18,6 +18,10 @@ venv/
 *.pyxapp
 *.html
 
+# Sphinx build output
+docs/build/
+docs/source/_build/
+
 # Editors
 .vscode/
 .idea/
