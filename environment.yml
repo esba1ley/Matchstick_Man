@@ -1,0 +1,10 @@
+name: matchstick
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - ruff
+  - pytest
+  - pip:
+      - pyxel==2.9.4

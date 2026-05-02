@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local env / virtualenvs (defensive — env lives outside the repo, but in case anyone creates one in-tree)
+.venv/
+venv/
+
+# Pyxel HTML5 export output
+*.pyxapp
+*.html
+
+# Editors
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
