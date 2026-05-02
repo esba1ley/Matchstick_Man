@@ -2,6 +2,23 @@
     "python.defaultInterpreterPath": "${env:HOME}/miniforge3/envs/matchstick/bin/python",
     "python.terminal.activateEnvironment": true,
 
+    // Force VS Code's integrated terminals in this workspace to load the
+    // matchstick conda env. Standalone `python.terminal.activateEnvironment`
+    // is unreliable when the user's ~/.zshrc activates a different default
+    // conda env, so we redirect zsh to a project-local .zshrc via ZDOTDIR.
+    // The project zshrc sources ~/.zshrc first, then activates matchstick.
+    "terminal.integrated.profiles.osx": {
+        "zsh (matchstick)": {
+            "path": "/bin/zsh",
+            "args": ["-i"],
+            "env": {
+                "ZDOTDIR": "${workspaceFolder}/.vscode/zdotdir"
+            },
+            "icon": "terminal"
+        }
+    },
+    "terminal.integrated.defaultProfile.osx": "zsh (matchstick)",
+
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.testing.pytestArgs": [

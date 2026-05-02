@@ -27,6 +27,7 @@ docs/source/_build/
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
+!.vscode/zdotdir
 .idea/
 
 # macOS
