@@ -289,6 +289,20 @@ class TestHorizontalMovement:
         p.apply_input()  # release — facing should not change
         assert p.facing_right is False
 
+    def test_releasing_key_in_air_does_not_stop(self):
+        p = Player()
+        p.apply_input(right=True, jump=True, jump_held=True)  # jump while running
+        p.leave_ground()
+        p.apply_input(jump_held=True)  # release right key mid-air
+        assert p.vx == pytest.approx(RUN_SPEED)
+
+    def test_cannot_change_direction_in_air(self):
+        p = Player()
+        p.apply_input(right=True, jump=True, jump_held=True)  # jump while running right
+        p.leave_ground()
+        p.apply_input(left=True, jump_held=True)  # try to go left mid-air
+        assert p.vx == pytest.approx(RUN_SPEED)  # velocity unchanged
+
 
 class TestJump:
     def test_jump_sets_upward_velocity(self):

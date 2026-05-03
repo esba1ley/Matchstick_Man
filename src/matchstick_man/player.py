@@ -195,15 +195,18 @@ class Player:
             self._vx = 0.0
             return
 
-        # Horizontal: simultaneous left+right cancel out
-        if left and not right:
-            self._vx = -RUN_SPEED
-            self._facing_right = False
-        elif right and not left:
-            self._vx = RUN_SPEED
-            self._facing_right = True
-        else:
-            self._vx = 0.0
+        # Horizontal: only update velocity and facing while grounded.
+        # Once airborne the player is committed to the velocity they launched
+        # with; direction and speed can only change again on surface contact.
+        if self._on_ground:
+            if left and not right:
+                self._vx = -RUN_SPEED
+                self._facing_right = False
+            elif right and not left:
+                self._vx = RUN_SPEED
+                self._facing_right = True
+            else:
+                self._vx = 0.0
 
         # Jump: edge trigger, grounded, state must allow it
         if jump and self._on_ground and self.can_jump:
