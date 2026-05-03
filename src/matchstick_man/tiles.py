@@ -139,10 +139,14 @@ def resolve_collisions(
     player.leave_ground()
 
     # Tile range that could overlap with the player AABB.
+    # Use float arithmetic for max bounds so that a fractional position that
+    # pushes the bottom/right edge past a tile boundary is not truncated away.
+    # The per-tile overlap check (p_right <= tile_left etc.) handles the exact-
+    # boundary case where the edge merely touches but does not overlap.
     tx_min = max(0, int(player.x) // ts)
-    tx_max = min(level.width - 1, (int(player.x) + ss - 1) // ts)
+    tx_max = min(level.width - 1, int(player.x + ss) // ts)
     ty_min = max(0, int(player.y) // ts)
-    ty_max = min(level.height - 1, (int(player.y) + ss - 1) // ts)
+    ty_max = min(level.height - 1, int(player.y + ss) // ts)
 
     for ty in range(ty_min, ty_max + 1):
         for tx in range(tx_min, tx_max + 1):

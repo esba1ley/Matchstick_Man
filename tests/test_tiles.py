@@ -150,6 +150,22 @@ class TestResolveFloorContact:
         resolve_collisions(p, lvl, prev_x, prev_y, TS)
         assert p.vy == pytest.approx(0.0)
 
+    def test_floor_detected_after_gravity_push_fractional(self):
+        # Regression: after land() snaps player to floor, the next frame applies
+        # gravity and adds a fractional y offset (e.g. 0.5 px).  With integer
+        # truncation in the tile-range bounds the bottom edge (now 0.5 px inside
+        # the tile) was silently excluded, leaving _on_ground=False and causing
+        # ~50% of jump presses to be swallowed.
+        lvl = _floor_level(tx=0, ty=1)
+        floor_y = float(1 * TS - TS)  # = 0.0 for ty=1, ss=TS
+        p = Player(x=0.0, y=floor_y)  # snapped exactly to the floor
+        # Simulate gravity moving the player 0.5 px into the tile.
+        p._vy = 0.5
+        p.y += 0.5  # now y=0.5; bottom edge = 0.5+16 = 16.5, inside tile at ty=1
+        resolve_collisions(p, lvl, 0.0, floor_y, TS)
+        assert p.on_ground is True
+        assert p.y == pytest.approx(floor_y)
+
 
 # ---------------------------------------------------------------------------
 # Ceiling bonk (entered from below)
