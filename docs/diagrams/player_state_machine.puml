@@ -1,0 +1,52 @@
+@startuml player_state_machine
+title Player State Machine
+
+skinparam state {
+    BackgroundColor<<terminal>> #FFAAAA
+    BorderColor<<terminal>> #CC0000
+}
+
+[*] --> HEADED : (game start)
+
+state HEADED {
+    [*] --> [*]
+}
+
+state BURNING {
+    [*] --> [*]
+}
+
+state HEADLESS {
+    [*] --> [*]
+}
+
+state DEAD <<terminal>>
+
+HEADED   --> BURNING   : hit_rough_ceiling()
+BURNING  --> HEADLESS  : hit_water()
+BURNING  --> DEAD      : burn timer expires
+HEADLESS --> HEADED    : pickup_matchbook()
+
+note right of HEADED
+  can_jump = True
+  can_light_fuses = True
+end note
+
+note right of BURNING
+  can_jump = True
+  can_light_fuses = True
+  burn_frames_remaining > 0
+end note
+
+note right of HEADLESS
+  can_jump = False
+  can_light_fuses = False
+end note
+
+note right of DEAD
+  Terminal — no transitions out.
+  can_jump = False
+  can_light_fuses = False
+end note
+
+@enduml

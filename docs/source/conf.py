@@ -26,7 +26,12 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "numpydoc",
+    "sphinxcontrib.plantuml",
 ]
+
+# Absolute path to the MacPorts-installed plantuml wrapper.
+plantuml = "/opt/local/bin/plantuml"
+plantuml_output_format = "svg"
 
 templates_path = ["_templates"]
 exclude_patterns: list[str] = []

@@ -21,3 +21,11 @@ API reference
    :members:
    :undoc-members:
    :show-inheritance:
+
+``matchstick_man.player``
+-------------------------
+
+.. automodule:: matchstick_man.player
+   :members:
+   :undoc-members:
+   :show-inheritance:
