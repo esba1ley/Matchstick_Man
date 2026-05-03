@@ -228,6 +228,18 @@ class Player:
         self._vy = 0.0
         self._on_ground = True
 
+    def bonk_ceiling(self, ceiling_y: float) -> None:
+        """Snap the player's top edge to a ceiling and clear upward velocity.
+
+        Parameters
+        ----------
+        ceiling_y : float
+            Y-coordinate of the player's top edge when touching the ceiling
+            (i.e. bottom of the ceiling tile).
+        """
+        self.y = ceiling_y
+        self._vy = 0.0
+
     def leave_ground(self) -> None:
         """Mark the player as airborne.
 

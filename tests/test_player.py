@@ -384,6 +384,34 @@ class TestGravity:
         assert p.vy == pytest.approx(vy_before + GRAVITY)
 
 
+class TestCeilingContact:
+    def test_bonk_snaps_y(self):
+        p = Player(y=50.0)
+        p.leave_ground()
+        p.bonk_ceiling(100.0)
+        assert p.y == pytest.approx(100.0)
+
+    def test_bonk_zeros_vy(self):
+        p = Player()
+        p.apply_input(jump=True, jump_held=True)
+        p.leave_ground()
+        p.update()
+        assert p.vy < 0  # still ascending
+        p.bonk_ceiling(10.0)
+        assert p.vy == pytest.approx(0.0)
+
+    def test_bonk_does_not_change_state(self):
+        p = Player()
+        p.bonk_ceiling(10.0)
+        assert p.state is PlayerState.HEADED
+
+    def test_bonk_does_not_affect_on_ground(self):
+        p = Player()
+        p.leave_ground()
+        p.bonk_ceiling(10.0)
+        assert p.on_ground is False
+
+
 class TestGroundContact:
     def test_land_snaps_y_to_floor(self):
         p = Player(y=500.0)
