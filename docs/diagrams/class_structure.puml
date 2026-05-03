@@ -1,0 +1,50 @@
+@startuml class_structure
+title Class Structure
+
+skinparam classAttributeIconSize 0
+
+package "matchstick_man" {
+
+    class App {
+        +__init__()
+        +run()
+        +update()
+        +draw()
+    }
+
+    class Player {
+        +state : PlayerState
+        +can_jump : bool
+        +can_light_fuses : bool
+        +burn_frames_remaining : int
+        --
+        +hit_rough_ceiling()
+        +hit_water()
+        +pickup_matchbook()
+        +update()
+    }
+
+    enum PlayerState {
+        HEADED
+        BURNING
+        HEADLESS
+        DEAD
+    }
+
+    note bottom of App
+      App.__init__ calls pyxel.init();
+      App.run() enters the blocking
+      pyxel.run() loop. Split so tests
+      can construct App without blocking.
+    end note
+
+    note bottom of Player
+      Pure logic — no Pyxel dependency.
+      burn_duration injectable via
+      constructor for test speed.
+    end note
+
+    Player --> PlayerState : state
+}
+
+@enduml

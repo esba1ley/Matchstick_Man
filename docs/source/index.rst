@@ -9,15 +9,11 @@ that runs, jumps, and swims through hand-crafted levels, ultimately lighting
 fuses to detonate the level for completion. Score is a function of completion
 time: faster runs score higher.
 
-.. note::
-
-   No source code exists yet. The :doc:`API reference <api>` will populate
-   once the :mod:`matchstick_man` package lands under ``src/matchstick_man/``.
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents
 
+   diagrams
    api
 
 Indices and tables
