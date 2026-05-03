@@ -1,0 +1,2 @@
+# Binary Pyxel resource files — prevent CRLF/LF conversion and diff noise.
+*.pyxres binary
